@@ -1,0 +1,6 @@
+services:
+  api:
+    build: .
+    image: kokyangwuti/api
+    ports:
+      - "8000:8000"

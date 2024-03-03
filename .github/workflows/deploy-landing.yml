@@ -21,4 +21,4 @@ jobs:
     - name: Deploy via SSH
       run: |
         ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "mkdir -p /var/www/kokyangwuti/landing"
-        scp -P ${{ secrets.SSH_PORT }} -r ./static_files/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/kokyangwuti/landing
+        scp -P ${{ secrets.SSH_PORT }} -r ./landing ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/kokyangwuti/landing

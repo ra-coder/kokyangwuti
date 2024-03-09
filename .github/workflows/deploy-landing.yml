@@ -6,7 +6,7 @@ on:
       - main  # Adjust this if you're using a different branch
 
 jobs:
-  deploy:
+  deploy-landing:
     runs-on: ubuntu-latest
 
     steps:

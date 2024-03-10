@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - api-stab
+      - load-file-to-s3
 
 jobs:
   deploy-api:
@@ -23,4 +23,7 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf ~/kokyangwuti/api && mkdir -p  ~/kokyangwuti/api"
         scp -P ${{ secrets.SSH_PORT }} -r ./api ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/kokyangwuti/.
+        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "touch .env"
+        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}  "echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env"
+        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}  "echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env"
         ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ~/kokyangwuti/api && docker compose -f docker-compose.yml  build && docker compose -f docker-compose.yml -p kokyangwuti up -d"

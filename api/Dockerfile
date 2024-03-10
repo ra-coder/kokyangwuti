@@ -1,11 +1,13 @@
 FROM python:3.12
 
-WORKDIR /src
+WORKDIR /code
 
 COPY requirements.in .
 RUN pip install --no-cache-dir -r requirements.in
 
-COPY src/* .
+COPY src src
+
+WORKDIR /code/src
 
 EXPOSE 8000
 

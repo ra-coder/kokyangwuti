@@ -1,2 +1,6 @@
+aiobotocore
+types-aiobotocore
 fastapi
 uvicorn
+python-multipart
+pydantic-settings

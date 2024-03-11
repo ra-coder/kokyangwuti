@@ -23,4 +23,4 @@ jobs:
       run: |
         ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "rm -rf /var/www/kokyangwuti/landing && mkdir -p /var/www/kokyangwuti/landing"
         scp -P ${{ secrets.SSH_PORT }} -r ./landing/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/kokyangwuti/landing/.
-        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "chgrp -R  www-data /var/www/kokyangwuti/landing -p kokyangwuti"
+        ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "chgrp -R  www-data /var/www/kokyangwuti/landing"

@@ -4,11 +4,11 @@ from uuid import uuid4
 from fastapi import APIRouter, UploadFile
 from fastapi.responses import ORJSONResponse
 
+from ..tasks import hsl
+
 __all__ = [
     'router'
 ]
-
-from ..tasks import hsl
 
 router = APIRouter(
     prefix='/hsl',

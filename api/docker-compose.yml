@@ -1,8 +1,42 @@
+version: "3.8"
+
 services:
-  kokyangwuti-api:
-    build: .
-    image: kokyangwuti/api
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    command: sh -c "uvicorn app:app --reload --host=0.0.0.0 --port=8000"
+    volumes:
+      - .:/app
     ports:
       - "8000:8000"
     env_file:
       - .env
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis
+      - worker
+
+
+  redis:
+    container_name: redis
+    image: redis:7.0.11-alpine3.18
+
+  worker:
+    build: .
+    container_name: worker
+    command: celery -A src.config:celery worker -l info --concurrency=1
+    volumes:
+      - .:/app
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    depends_on:
+      - redis

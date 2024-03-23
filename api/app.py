@@ -1,9 +1,10 @@
+import uvicorn
 from fastapi import FastAPI
 
-from api import router
+from src.api import router as api_router
 
 app = FastAPI(root_path="/api")
-app.include_router(router)
+app.include_router(api_router)
 
 
 @app.get("/")
@@ -12,8 +13,7 @@ def read_root():
 
 
 if __name__ == "__main__":
-    import uvicorn
-
+    # uvicorn app:app --reload
     uvicorn.run(
         "app:app",
         host="0.0.0.0",

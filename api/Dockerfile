@@ -1,14 +1,18 @@
 FROM python:3.12
 
-WORKDIR /code
+WORKDIR /app
 
-COPY requirements.in .
-RUN pip install --no-cache-dir -r requirements.in
+COPY requirements.in /app/requirements.txt
 
-COPY src src
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-WORKDIR /code/src
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+
+# Install ffmeg
+RUN apt-get update
+RUN apt-get install -y ffmpeg
+
+COPY . /app
 
 EXPOSE 8000
-
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
